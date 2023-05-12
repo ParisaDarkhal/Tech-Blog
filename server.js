@@ -21,6 +21,11 @@ const hbs = exphbs.create({});
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
+// routing for login page
+app.get("/", (req, res) => {
+  res.render("logIn");
+});
+
 // to make it possible to make a POST request
 app.use(express.json);
 app.use(express.urlencoded({ extended: true }));
