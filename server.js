@@ -8,12 +8,14 @@ const hbs = exphbs.create({});
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const models = require("./models");
+
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(require("./controllers/dish-routes"));
+app.use(require("./controllers/user-routes"));
 
 // Starts the server to begin listening
 app.listen(PORT, () => {
