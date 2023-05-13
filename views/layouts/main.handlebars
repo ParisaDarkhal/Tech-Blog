@@ -45,15 +45,17 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Dashboard</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Log In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Log Out</a>
-            </li>
-            <li class="nav-link">
-              {{user}}
-            </li>
+            {{! to check if user is logged in, if yes shows log out, if not shows log in }}
+            {{#if user}}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Log Out</a>
+              </li>
+            {{else}}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Log In</a>
+              </li>
+            {{/if}}
+
           </ul>
         </div>
       </div>

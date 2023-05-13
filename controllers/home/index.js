@@ -3,7 +3,8 @@ const router = require("express").Router();
 
 // localhost:3001/
 router.get("/", (req, res) => {
-  const user = "parisa";
+  const user = null;
+  // const user = "parisa";
   res.render("homepage", { user });
 });
 
