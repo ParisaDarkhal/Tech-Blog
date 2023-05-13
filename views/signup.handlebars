@@ -1,16 +1,16 @@
 <div class="container">
   <div class="row m-5">
-
     <div class="col-12 col-md-4 bg-light m-5 py-3">
-      <h2>Log In</h2>
-      <form action="/login" method="POST">
-        <!-- Log-in form fields -->
+      <h2>Sign Up</h2>
+      <form action="/signup" method="POST">
+        <!-- Sign-up form fields -->
         <input
           type="text"
           name="name"
           placeholder="Username"
           class="py-1 my-1 d-block"
         />
+        <!-- <input type="email" name="email" placeholder="Email" /> -->
         <input
           type="password"
           name="password"
@@ -18,11 +18,10 @@
           class="py-1 my-1 d-block"
         />
         <button type="submit" class="btn btn-primary d-block">
-          Log In
+          Sign Up
         </button>
-        <h5>If you don't have an account,
-          <a href="signup">Click here</a></h5>
       </form>
     </div>
+
   </div>
 </div>

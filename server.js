@@ -2,6 +2,7 @@
 const express = require("express"); //
 const exphbs = require("express-handlebars"); //
 const path = require("path"); //
+const session = require("express-session");
 
 const controllers = require("./controllers");
 const sequelize = require("./config/connection");
@@ -10,6 +11,14 @@ const PORT = process.env.PORT || 3001;
 
 // Sets up the Express App
 const app = express();
+
+// set up session
+const sess = {
+  secret: "Super secret secret",
+  resave: false,
+  saveUninitialized: false,
+};
+app.use(session(sess));
 
 // To access the public/front-end content!
 app.use(express.static(path.join(__dirname, "/public")));
@@ -24,14 +33,6 @@ const hbs = exphbs.create({});
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 // app.set("views", "./views");
-
-// app.set("views", path.join(__dirname, "/public/views"));
-
-// routing for login page
-// app.get("/", (req, res) => {
-//   console.log("object");
-//   res.render("homepage");
-// });
 
 // to make it possible to make a POST request
 app.use(express.json());
