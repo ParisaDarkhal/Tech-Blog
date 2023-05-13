@@ -3,7 +3,8 @@ const router = require("express").Router();
 
 // localhost:3001/
 router.get("/", (req, res) => {
-  res.render("homepage");
+  const user = "parisa";
+  res.render("homepage", { user });
 });
 
 module.exports = router;
