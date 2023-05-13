@@ -11,8 +11,11 @@ const PORT = process.env.PORT || 3001;
 // Sets up the Express App
 const app = express();
 
+// To access the public/front-end content!
+app.use(express.static(path.join(__dirname, "/public")));
+
 // to make the tables for the first time
-const models = require("./models");
+// const models = require("./models");
 
 // sets up handlebars
 const hbs = exphbs.create({});
@@ -20,14 +23,18 @@ const hbs = exphbs.create({});
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+// app.set("views", "./views");
+
+// app.set("views", path.join(__dirname, "/public/views"));
 
 // routing for login page
-app.get("/", (req, res) => {
-  res.render("logIn");
-});
+// app.get("/", (req, res) => {
+//   console.log("object");
+//   res.render("homepage");
+// });
 
 // to make it possible to make a POST request
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(controllers);
 
