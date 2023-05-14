@@ -32,7 +32,6 @@ const hbs = exphbs.create({});
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
-// app.set("views", "./views");
 
 // to make it possible to make a POST request
 app.use(express.json());

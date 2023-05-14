@@ -7,7 +7,7 @@
         <!-- Log-in form fields -->
         <input
           type="text"
-          name="name"
+          name="username"
           placeholder="Username"
           class="py-1 my-1 d-block"
         />
@@ -23,6 +23,10 @@
         <h5>If you don't have an account,
           <a href="signup">Click here</a></h5>
       </form>
+
+      {{#if message}}
+        <div><h6>{{message}}</h6></div>
+      {{/if}}
     </div>
   </div>
 </div>

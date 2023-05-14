@@ -1,9 +1,15 @@
 // this is controllers/users/index.js
 const router = require("express").Router();
 
-// localhost:3001/users
+// localhost:3001/dashboard
 router.get("/", (req, res) => {
-  res.json("From the user folder!");
+  const user = req.session.fullName;
+  if (!user) {
+    res.redirect("/login");
+  }
+
+  const userPosts = [];
+  res.render("dashboard", userPosts);
 });
 
 module.exports = router;
