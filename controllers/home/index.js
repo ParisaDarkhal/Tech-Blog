@@ -33,6 +33,7 @@ router.post("/login", async (req, res) => {
     res.render("login", {
       message: "Invalid username/password. Please try again.",
     });
+    return;
   }
   const validPassword = await userData.checkPassword(req.body.password);
 
@@ -40,6 +41,7 @@ router.post("/login", async (req, res) => {
     res.render("login", {
       message: "Invalid username/password. Please try again.",
     });
+    return;
   }
   req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
   res.redirect("/");
@@ -49,6 +51,19 @@ router.post("/login", async (req, res) => {
 router.post("/signup", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+
+  // checks if the username already exists
+  const existingUser = await User.findOne({
+    where: {
+      username: username,
+    },
+  });
+  if (existingUser) {
+    res.render("signup", {
+      message: "Username already exists. Please choose another username.",
+    });
+    return;
+  }
 
   const userData = await User.create({
     username: username,
