@@ -1,13 +1,19 @@
-<div class="card my-1 mx-3">
-  <h5 class="card-header">Blog Post Title</h5>
-  <div class="card-body">
-    <h5 class="card-title">creator's name and date</h5>
-    <p class="card-text">
-      text of the post. Lorem ipsum dolor sit amet, consectetuer adipiscing
-      elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-      penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-      qu
-    </p>
-    <a href="#" class="btn btn-primary">comment</a>
+{{#each usersPosts}}
+
+  <div class="card my-1 mx-3">
+    <h5 class="card-header d-flex justify-content-between">{{title}}
+      <span class="fs-6 fw-lighter">Created by:
+        {{this.user.username}}
+        at
+
+        {{format_time date}}</span></h5>
+
+    <div class="card-body">
+
+      <p class="card-text">
+        {{content}}
+      </p>
+    </div>
   </div>
-</div>
+
+{{/each}}

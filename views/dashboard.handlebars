@@ -1,22 +1,22 @@
 {{!shows users blog posts}}
 
-<a href="/posts/create" class="btn btn-primary">New Post</a>
+<a href="/posts/create" class="btn btn-primary col-2 my-3 ms-3">New Post</a>
 
 {{#each userPosts}}
 
   <div class="card my-1 mx-3">
-    <h5 class="card-header d-inline">{{title}}Title</h5>
-    <h6 class="card-title d-inline">Created by:
-      {{user}}
-      user at
-      {{date}}
-      date</h6>
+    <h5 class="card-header d-flex justify-content-between">{{title}}
+      <span class="fs-6 fw-lighter">Created by:
+        {{this.user.username}}
+        at
+
+        {{format_time date}}</span></h5>
+
     <div class="card-body">
 
       <p class="card-text">
         {{content}}
       </p>
-      <button class="btn btn-primary">Post</button>
     </div>
   </div>
 

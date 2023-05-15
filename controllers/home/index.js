@@ -1,14 +1,25 @@
 // this is controllers/home/index.js
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, BlogPost } = require("../../models");
 const bcrypt = require("bcrypt");
 
 // localhost:3001/
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const user = req.session.fullName;
 
+  const dbUsersPosts = await BlogPost.findAll({
+    include: [
+      {
+        model: User,
+        required: true,
+      },
+    ],
+    order: [["date", "DESC"]],
+  });
+  const usersPosts = dbUsersPosts.map((post) => post.get({ plain: true }));
+
   // for setting the session
-  res.render("homepage", { user });
+  res.render("homepage", { usersPosts, user });
 });
 
 // localhost:3001/login
@@ -44,6 +55,7 @@ router.post("/login", async (req, res) => {
     return;
   }
   req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
+  req.session.userId = userData.id;
   res.redirect("/");
 });
 
