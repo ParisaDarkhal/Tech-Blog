@@ -3,13 +3,12 @@ const router = require("express").Router();
 
 // localhost:3001/nowpost
 router.get("/", (req, res) => {
-  const user = req.session.fullName;
-  if (!user) {
-    res.redirect("/login");
-  }
-
   const userPosts = [];
   res.render("dashboard", userPosts);
+});
+
+router.get("/create", (req, res) => {
+  res.render("newpost");
 });
 
 module.exports = router;
