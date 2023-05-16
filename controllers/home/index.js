@@ -100,4 +100,11 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
+// checks if the user is logged in or not
+router.get("/checkUser", (req, res) => {
+  const user = req.session.fullName;
+  console.log(user);
+  res.json({ userName: user });
+});
+
 module.exports = router;
