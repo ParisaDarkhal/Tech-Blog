@@ -1,19 +1,24 @@
 // this is controllers/home/index.js
 const router = require("express").Router();
-const { Model } = require("sequelize");
+// const { Model } = require("sequelize");
 const { User, BlogPost } = require("../../models");
 const bcrypt = require("bcrypt");
 
 // localhost:3001/
 router.get("/", async (req, res) => {
+  let user;
+  if (req.session.fullName) {
+    user = req.session.fullName;
+  }
   const dbPosts = await BlogPost.findAll({
     include: [{ model: User }],
     order: [["date", "DESC"]],
   });
   const allPosts = dbPosts.map((post) => post.get({ plain: true }));
 
+  console.log("user from home :>> ", user);
   // for setting the session
-  res.render("homepage", { allPosts });
+  res.render("homepage", { allPosts, user });
 });
 
 // localhost:3001/login
@@ -48,9 +53,11 @@ router.post("/login", async (req, res) => {
     });
     return;
   }
-  req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
-  req.session.userId = userData.id;
-  res.redirect("/");
+  req.session.save(() => {
+    req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
+    req.session.userId = userData.id;
+    res.render("homepage", { user: userData.username });
+  });
 });
 
 // localhost:3001/signup
@@ -77,7 +84,9 @@ router.post("/signup", async (req, res) => {
   });
   // sets the session for the posted username
   if (userData.username) {
-    req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
+    req.session.save(() => {
+      req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
+    });
   }
 
   res.redirect("/");
@@ -90,14 +99,15 @@ router.get("/signup", (req, res) => {
 
 // localhost:3001/logout
 router.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
+  req.session.destroy(() => {
+    res.status(204).end();
+  });
+  res.render("homepage");
 });
 
 // checks if the user is logged in or not
 router.get("/checkUser", (req, res) => {
   const user = req.session.fullName;
-  console.log(user);
   res.json({ userName: user });
 });
 

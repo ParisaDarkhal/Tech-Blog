@@ -14,20 +14,44 @@ const PORT = process.env.PORT || 3001;
 // Sets up the Express App
 const app = express();
 
-const sess = {
-  secret: "Super secret secret",
-  cookie: {
-    // Stored in milliseconds
-    maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
-  },
-  resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
-};
+// const sess = {
+//   secret: "Super secret secret",
+//   cookie: {
+//     // Stored in milliseconds
+//     maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
+//   },
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new SequelizeStore({
+//     db: sequelize,
+//   }),
+// };
 
 // set up session
+// create database, ensure 'sqlite3' in your package.json
+// var sequelize = new Sequelize("database", "username", "password", {
+// dialect: "sqlite",
+// storage: "./session.sqlite",
+// });
+
+// configure express
+app.use(
+  session({
+    secret: "keyboard cat",
+    cookie: {
+      // Stored in milliseconds
+      maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
+    },
+    // store: myStore,
+    store: new SequelizeStore({
+      db: sequelize,
+    }),
+    resave: false, // we support the touch method so per the express-session docs this should be set to false
+    proxy: true, // if you do SSL outside of node.
+  })
+);
+
+// myStore.sync();
 // const sess = {
 //   secret: "Super secret secret",
 //   resave: false,
