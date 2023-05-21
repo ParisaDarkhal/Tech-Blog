@@ -68,15 +68,15 @@ app.use(express.static(path.join(__dirname, "/public")));
 // sets up handlebars
 const hbs = exphbs.create({ helpers });
 
-// Set Handlebars as the default template engine.
-app.engine("handlebars", hbs.engine);
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "handlebars");
-
 // to make it possible to make a POST request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(controllers);
+
+// Set Handlebars as the default template engine.
+app.engine("handlebars", hbs.engine);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "handlebars");
 
 // Starts the server to begin listening: first we need to connect to the database and then run the server
 sequelize.sync({ force: false }).then(() => {
