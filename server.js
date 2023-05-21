@@ -59,9 +59,6 @@ app.use(
 // };
 // app.use(session(sess));
 
-// To access the public/front-end content!
-app.use(express.static(path.join(__dirname, "/public")));
-
 // to make the tables for the first time
 // const models = require("./models");
 
@@ -71,12 +68,16 @@ const hbs = exphbs.create({ helpers });
 // to make it possible to make a POST request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(controllers);
+
+// To access the public/front-end content!
+app.use(express.static(path.join(__dirname, "/public")));
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
-app.set("views", path.join(__dirname, "/views"));
+// app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
+
+app.use(controllers);
 
 // Starts the server to begin listening: first we need to connect to the database and then run the server
 sequelize.sync({ force: false }).then(() => {
