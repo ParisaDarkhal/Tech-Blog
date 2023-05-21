@@ -75,7 +75,7 @@ app.use(controllers);
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
 // Starts the server to begin listening: first we need to connect to the database and then run the server
