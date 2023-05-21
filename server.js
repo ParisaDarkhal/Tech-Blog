@@ -70,6 +70,7 @@ const hbs = exphbs.create({ helpers });
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 
 // to make it possible to make a POST request
