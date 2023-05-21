@@ -1,25 +1,19 @@
 // this is controllers/home/index.js
 const router = require("express").Router();
+const { Model } = require("sequelize");
 const { User, BlogPost } = require("../../models");
 const bcrypt = require("bcrypt");
 
 // localhost:3001/
 router.get("/", async (req, res) => {
-  const user = req.session.fullName;
-
-  const dbUsersPosts = await BlogPost.findAll({
-    include: [
-      {
-        model: User,
-        required: true,
-      },
-    ],
+  const dbPosts = await BlogPost.findAll({
+    include: [{ model: User }],
     order: [["date", "DESC"]],
   });
-  const usersPosts = dbUsersPosts.map((post) => post.get({ plain: true }));
+  const allPosts = dbPosts.map((post) => post.get({ plain: true }));
 
   // for setting the session
-  res.render("homepage", { usersPosts, user });
+  res.render("homepage", { allPosts });
 });
 
 // localhost:3001/login
