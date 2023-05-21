@@ -1,6 +1,6 @@
 {{#each usersPosts}}
 
-  <div class="card my-1 mx-3" onclick="showComment()">
+  <div id="post-{{id}}" class="card my-1 mx-3" onclick="showComment(this)">
     <h5 class="card-header d-flex justify-content-between">{{title}}
       <span class="fs-6 fw-lighter">Created by:
         {{this.user.username}}
@@ -15,15 +15,20 @@
       </p>
     </div>
   </div>
-  {{! Comment}}
-  <div class="form-floating mx-5 comment-hide" id="comment">
+  {{! Comment write}}
+  <div class="form-floating mx-5 comment-hide" id="comment-{{id}}">
     <textarea
       class="form-control"
       placeholder="Leave a comment here"
-      id="floatingTextarea"
+      id="commentText-{{id}}"
+      value=""
     ></textarea>
-    <label for="floatingTextarea" class="fw-lighter">Leave a comment here</label>
-    <button class="btn btn-primary clo-2 my-1">Save</button>
+    <label for="commentText-{{id}}" class="fw-lighter">Leave a comment here</label>
+    <button
+      id="{{id}}"
+      class="btn btn-primary clo-2 my-1"
+      onclick="saveComment(this)"
+    >Save</button>
   </div>
 
 {{/each}}

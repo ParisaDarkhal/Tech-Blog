@@ -5,6 +5,7 @@ const { BlogPost, User } = require("../../models");
 // localhost:3001/dashboard
 router.get("/", async (req, res) => {
   const user = req.session.fullName;
+
   if (!user) {
     res.redirect("/login");
     return;

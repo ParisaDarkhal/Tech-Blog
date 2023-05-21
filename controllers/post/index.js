@@ -1,6 +1,6 @@
 // this is post index file
 const router = require("express").Router();
-const { BlogPost } = require("../../models");
+const { BlogPost, Comment, User } = require("../../models");
 
 // localhost:3001/nowpost
 router.get("/", async (req, res) => {
@@ -44,4 +44,26 @@ router.post("/create", async (req, res) => {
   }
 });
 
+//localhost:3001/posts/comment
+router.post("/comment", async (req, res) => {
+  try {
+    const comment = req.body.comment;
+    const blogId = req.body.blogId;
+    const username = req.session.fullName;
+    const dbUser = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    const dbComment = await Comment.create({
+      content: comment,
+      blogPost_id: blogId,
+      user_id: dbUser.id,
+    });
+    res.status(200).json({ dbComment, username });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
 module.exports = router;
