@@ -1,3 +1,36 @@
+// Assuming you have a login form in your HTML with id "loginForm"
+const loginForm = document.querySelector("#loginForm");
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Prevent the default form submission
+
+  // Get the username and password from the form
+  const username = document.querySelector("#username").value;
+  const password = document.querySelector("#password").value;
+
+  try {
+    // Send a POST request to the /login endpoint
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      // Login was successful, redirect to '/'
+      window.location.href = "/";
+    } else {
+      // Login failed, display an error message
+      const errorData = await response.json();
+      console.log("Login failed:", errorData.message);
+    }
+  } catch (error) {
+    console.log("An error occurred during login:", error);
+  }
+});
+
 function showComment(post) {
   const blogId = post.id.split("-")[1];
   // checks to see if the user is logged in or not

@@ -45,11 +45,8 @@ app.use(
     // }),
     resave: false, // we support the touch method so per the express-session docs this should be set to false
     saveUninitialized: true,
-    proxy: true, // if you do SSL outside of node.
   })
 );
-
-myStore.sync();
 
 // myStore.sync();
 // const sess = {
@@ -77,6 +74,8 @@ app.use(controllers);
 
 // Starts the server to begin listening: first we need to connect to the database and then run the server
 sequelize.sync({ force: false }).then(() => {
+  myStore.sync();
+
   // false can be turned to true ONLY first time when I want to make the database
   app.listen(PORT, () => {
     console.log("Server listening on: http://localhost:" + PORT);

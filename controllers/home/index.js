@@ -19,7 +19,6 @@ router.get("/", async (req, res) => {
   const allPosts = dbPosts.map((post) => post.get({ plain: true }));
 
   console.log("user from home :>> ", user);
-  // for setting the session
   if (user) {
     res.render("homepage", { allPosts, user });
   } else {
@@ -70,9 +69,8 @@ router.post("/login", async (req, res) => {
     req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
     req.session.userId = userData.id;
     console.log("req.session from login post :>> ", req.session);
-    // res.redirect("/");
-    res.status(200);
-    res.render("homepage", { allPosts, user: userData.username });
+    res.redirect("/");
+    // res.render("homepage", { allPosts, user: userData.username });
     return;
   });
 });

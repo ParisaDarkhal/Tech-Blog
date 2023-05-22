@@ -3,16 +3,18 @@
   <div class="row m-5">
     <div class="col-12 col-md-4 bg-light m-5 py-3">
       <h2>Log In</h2>
-      <form action="/login" method="POST">
+      <form id="loginForm" action="/login" method="POST">
         <!-- Log-in form fields -->
         <input
           type="text"
+          id="username"
           name="username"
           placeholder="Username"
           class="py-1 my-1 d-block"
         />
         <input
           type="password"
+          id="password"
           name="password"
           placeholder="Password"
           class="py-1 my-1 d-block"
