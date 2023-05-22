@@ -74,7 +74,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
-app.set("views", path.join(__dirname, "/views"));
+// app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
 app.use(controllers);
