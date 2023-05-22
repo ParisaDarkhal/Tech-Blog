@@ -27,13 +27,6 @@ const app = express();
 //   }),
 // };
 
-// set up session
-// create database, ensure 'sqlite3' in your package.json
-// var sequelize = new Sequelize("database", "username", "password", {
-// dialect: "sqlite",
-// storage: "./session.sqlite",
-// });
-
 // configure express
 app.use(
   session({
@@ -42,11 +35,11 @@ app.use(
       // Stored in milliseconds
       maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
     },
-    // store: myStore,
     store: new SequelizeStore({
       db: sequelize,
     }),
     resave: false, // we support the touch method so per the express-session docs this should be set to false
+    saveUninitialized: false,
     proxy: true, // if you do SSL outside of node.
   })
 );
@@ -58,9 +51,6 @@ app.use(
 //   saveUninitialized: false,
 // };
 // app.use(session(sess));
-
-// to make the tables for the first time
-// const models = require("./models");
 
 // sets up handlebars
 const hbs = exphbs.create({ helpers });
@@ -74,7 +64,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // Set Handlebars as the default template engine.
 app.engine("handlebars", hbs.engine);
-// app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
 app.use(controllers);

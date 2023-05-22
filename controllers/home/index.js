@@ -7,6 +7,10 @@ const bcrypt = require("bcrypt");
 // localhost:3001/
 router.get("/", async (req, res) => {
   let user;
+  if (!req.session.fullName) {
+    res.redirect("/");
+    return;
+  }
   if (req.session.fullName) {
     user = req.session.fullName;
   }
