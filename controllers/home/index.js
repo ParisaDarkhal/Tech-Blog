@@ -1,14 +1,11 @@
 // this is controllers/home/index.js
 const router = require("express").Router();
-// const { Model } = require("sequelize");
 const { User, BlogPost } = require("../../models");
-const bcrypt = require("bcrypt");
 
 // localhost:3001/
 router.get("/", async (req, res) => {
-  console.log("Session Data:", req.session);
   let user;
-  console.log("======================");
+
   if (req.session.fullName) {
     user = req.session.fullName;
   }
@@ -18,7 +15,6 @@ router.get("/", async (req, res) => {
   });
   const allPosts = dbPosts.map((post) => post.get({ plain: true }));
 
-  console.log("user from home :>> ", user);
   if (user) {
     res.render("homepage", { allPosts, user });
   } else {
@@ -28,7 +24,6 @@ router.get("/", async (req, res) => {
 
 // localhost:3001/login
 router.get("/login", (req, res) => {
-  console.log("req.session :>> ", req.session);
   if (!req.session.fullName) {
     res.render("login");
   } else {
@@ -63,12 +58,11 @@ router.post("/login", async (req, res) => {
     include: [{ model: User }],
     order: [["date", "DESC"]],
   });
-  const allPosts = dbPosts.map((post) => post.get({ plain: true }));
+  // const allPosts = dbPosts.map((post) => post.get({ plain: true }));
 
   req.session.save(() => {
     req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
     req.session.userId = userData.id;
-    console.log("req.session from login post :>> ", req.session);
     res.redirect("/");
     // res.render("homepage", { allPosts, user: userData.username });
     return;

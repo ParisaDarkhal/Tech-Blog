@@ -1,3 +1,4 @@
+// this is added because after logging in, the url of the page was not updated to home
 // Assuming you have a login form in your HTML with id "loginForm"
 const loginForm = document.querySelector("#loginForm");
 
@@ -31,6 +32,7 @@ loginForm.addEventListener("submit", async (e) => {
   }
 });
 
+// to display comments
 function showComment(post) {
   const blogId = post.id.split("-")[1];
   // checks to see if the user is logged in or not
@@ -47,6 +49,7 @@ function showComment(post) {
     });
 }
 
+// to save new comment
 async function saveComment(btn) {
   const blogId = btn.id;
   const commentText = document.getElementById(`commentText-${blogId}`);
@@ -59,7 +62,6 @@ async function saveComment(btn) {
     body: JSON.stringify({ comment: commentVal, blogId: blogId }),
   });
   const jsonData = await response.json();
-  console.log(jsonData);
   btn.parentElement.classList.remove("comment-visible");
   btn.parentElement.classList.add("comment-hide");
   let divEl = btn.parentElement.previousElementSibling;
@@ -74,6 +76,8 @@ function renderNewComment(data, divEl) {
   ${data.dbComment.content} 
   <span>Created by ${data.username} on ${new Date(
     data.dbComment.date
-  ).toLocaleDateString()}</span></div>`;
+  ).toLocaleDateString()} at ${new Date(
+    data.dbComment.date
+  ).toLocaleTimeString()}</span></div>`;
   divEl.append(newDiv);
 }

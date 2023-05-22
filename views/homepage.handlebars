@@ -4,8 +4,10 @@
     <h5 class="card-header d-flex justify-content-between">{{title}}
       <span class="fs-6 fw-lighter">Created by:
         {{this.user.username}}
-        at
+        on
 
+        {{format_date date}}
+        at
         {{format_time date}}</span></h5>
 
     <div class="card-body">

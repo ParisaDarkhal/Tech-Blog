@@ -14,19 +14,6 @@ const PORT = process.env.PORT || 3001;
 // Sets up the Express App
 const app = express();
 
-// const sess = {
-//   secret: "Super secret secret",
-//   cookie: {
-//     // Stored in milliseconds
-//     maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
-//   },
-//   resave: false,
-//   saveUninitialized: true,
-//   store: new SequelizeStore({
-//     db: sequelize,
-//   }),
-// };
-
 const myStore = new SequelizeStore({
   db: sequelize,
 });
@@ -40,21 +27,10 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
     },
     store: myStore,
-    // store: new SequelizeStore({
-    //   db: sequelize,
-    // }),
     resave: false, // we support the touch method so per the express-session docs this should be set to false
     saveUninitialized: true,
   })
 );
-
-// myStore.sync();
-// const sess = {
-//   secret: "Super secret secret",
-//   resave: false,
-//   saveUninitialized: false,
-// };
-// app.use(session(sess));
 
 // sets up handlebars
 const hbs = exphbs.create({ helpers });
@@ -73,10 +49,10 @@ app.set("view engine", "handlebars");
 app.use(controllers);
 
 // Starts the server to begin listening: first we need to connect to the database and then run the server
+// false can be turned to true ONLY first time when I want to make the database
 sequelize.sync({ force: false }).then(() => {
   myStore.sync();
 
-  // false can be turned to true ONLY first time when I want to make the database
   app.listen(PORT, () => {
     console.log("Server listening on: http://localhost:" + PORT);
   });

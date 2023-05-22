@@ -24,7 +24,6 @@ router.get("/", async (req, res) => {
     order: [["date", "DESC"]],
   });
   const userPosts = dbUserPosts.map((post) => post.get({ plain: true }));
-  console.log("user from dashboard :>> ", user);
   res.render("dashboard", { userPosts, user });
 });
 
