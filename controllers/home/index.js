@@ -6,11 +6,9 @@ const bcrypt = require("bcrypt");
 
 // localhost:3001/
 router.get("/", async (req, res) => {
+  console.log("Session Data:", req.session);
   let user;
-  if (!req.session.fullName) {
-    res.redirect("/");
-    return;
-  }
+  console.log("======================");
   if (req.session.fullName) {
     user = req.session.fullName;
   }
@@ -22,27 +20,32 @@ router.get("/", async (req, res) => {
 
   console.log("user from home :>> ", user);
   // for setting the session
-  res.render("homepage", { allPosts, user });
+  if (user) {
+    res.render("homepage", { allPosts, user });
+  } else {
+    res.render("login"); // Render the login view instead of the homepage
+  }
 });
 
 // localhost:3001/login
 router.get("/login", (req, res) => {
-  res.render("login");
+  console.log("req.session :>> ", req.session);
+  if (!req.session.fullName) {
+    res.render("login");
+  } else {
+    res.redirect("/");
+  }
 });
 
 // localhost:3001/login
 router.post("/login", async (req, res) => {
   const username = req.body.username;
-  // const password = await bcrypt.hash(req.body.password, 10);
-  // console.log(password);
-
   const userData = await User.findOne({
     where: {
       username: username,
     },
   });
 
-  // sets the session for the posted username
   if (!userData) {
     res.render("login", {
       message: "Invalid username/password. Please try again.",
@@ -57,10 +60,20 @@ router.post("/login", async (req, res) => {
     });
     return;
   }
+  const dbPosts = await BlogPost.findAll({
+    include: [{ model: User }],
+    order: [["date", "DESC"]],
+  });
+  const allPosts = dbPosts.map((post) => post.get({ plain: true }));
+
   req.session.save(() => {
     req.session.fullName = userData.username; //the word fullName after session is the name of this new variable
     req.session.userId = userData.id;
-    res.render("homepage", { user: userData.username });
+    console.log("req.session from login post :>> ", req.session);
+    // res.redirect("/");
+    res.status(200);
+    res.render("homepage", { allPosts, user: userData.username });
+    return;
   });
 });
 
@@ -104,9 +117,8 @@ router.get("/signup", (req, res) => {
 // localhost:3001/logout
 router.get("/logout", (req, res) => {
   req.session.destroy(() => {
-    res.status(204).end();
+    res.redirect("/login");
   });
-  res.render("homepage");
 });
 
 // checks if the user is logged in or not

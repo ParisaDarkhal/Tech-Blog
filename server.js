@@ -27,6 +27,10 @@ const app = express();
 //   }),
 // };
 
+const myStore = new SequelizeStore({
+  db: sequelize,
+});
+
 // configure express
 app.use(
   session({
@@ -35,14 +39,17 @@ app.use(
       // Stored in milliseconds
       maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
     },
-    store: new SequelizeStore({
-      db: sequelize,
-    }),
+    store: myStore,
+    // store: new SequelizeStore({
+    //   db: sequelize,
+    // }),
     resave: false, // we support the touch method so per the express-session docs this should be set to false
-    saveUninitialized: false,
+    saveUninitialized: true,
     proxy: true, // if you do SSL outside of node.
   })
 );
+
+myStore.sync();
 
 // myStore.sync();
 // const sess = {
